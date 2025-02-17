@@ -6,6 +6,7 @@ from pathlib import Path
 import os
 import sys
 import shutil
+import re
 
 
 savefile_path = {
@@ -17,9 +18,11 @@ savefile_path = {
                       '/PrismLauncher/instances/1.21.4/minecraft/saves'),
         'skyrim': ('489830/pfx/drive_c/users/steamuser/Documents/My Games/'
                    'Skyrim Special Edition/Saves'),
+        'dishonored2': ('403640/pfx/drive_c/users/steamuser/Saved Games/'
+                        'Arkane Studios/Dishonored2/base/savegame')
         }
 
-steam_games = ['nier', 'kenshi', 'skyrim']
+steam_games = ['nier', 'kenshi', 'skyrim', 'dishonored2']
 steam_compatdata_path = Path(
         '.steam/debian-installation/steamapps/compatdata/')
 home_path = Path.home()
@@ -48,10 +51,27 @@ else:
 if not Path(target_path).exists():
     Path(target_path).mkdir()
 
+# directory change
+os.chdir(target_path)
+
+# gets last backups mtime and filename
+backup_regex = re.compile('%s*' % backup_filename)
+backups_dict = {}
+with os.scandir(os.getcwd()) as backups:
+    for backup in backups:
+        if backup.is_file() and backup_regex.match(backup.name):
+            backup_info = os.stat(backup.name)
+            backups_dict[backup_info.st_mtime] = backup.name
+
+# keeps 3 backups and removes the oldest backup
+if len(backups_dict) > 2:
+    oldest_backup = min(backups_dict.keys())
+    os.remove(backups_dict[oldest_backup])
+    print(f"{backups_dict[oldest_backup]} removed!")
+
 # checks if source direcotry exist and creates backup with current localtime
 if Path(source_path).exists():
     localtime_format = time.strftime('_%d_%m_%Y_%H_%M_%S', time.localtime())
-    os.chdir(target_path)
     shutil.make_archive(backup_filename + localtime_format, 'zip', source_path)
     print(f"{argument} backup successful!")
 else:
