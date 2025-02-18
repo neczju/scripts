@@ -8,7 +8,6 @@ import sys
 import shutil
 import re
 
-
 savefile_path = {
         'vintagestory': '.config/VintagestoryData/Saves/',
         'kenshi': '233860/pfx/drive_c/users/steamuser/AppData/Local/kenshi/',
@@ -29,7 +28,7 @@ home_path = Path.home()
 target_path = 'backups'
 
 if len(sys.argv) < 2:
-    print('Type an argument!')
+    print('type an argument!')
     available_arguments = ', '.join(savefile_path.keys())
     print("available arguments: %s" % available_arguments)
     sys.exit()
@@ -44,7 +43,7 @@ if argument in steam_games:
 elif argument in savefile_path:
     source_path = Path(home_path / savefile_path[argument])
 else:
-    print('No argument named ' + argument + '!')
+    print('no argument named ' + argument + '!')
     sys.exit()
 
 # creates backup directory if backup directory not exist
@@ -72,7 +71,8 @@ if len(backups_dict) > 2:
 # checks if source direcotry exist and creates backup with current localtime
 if Path(source_path).exists():
     localtime_format = time.strftime('_%d_%m_%Y_%H_%M_%S', time.localtime())
-    shutil.make_archive(backup_filename + localtime_format, 'zip', source_path)
-    print(f"{argument} backup successful!")
+    backup_filename += localtime_format
+    shutil.make_archive(backup_filename, 'zip', source_path)
+    print(f"{backup_filename}.zip backup created!")
 else:
-    print('Source directory does not exist :(')
+    print('savefile does not exist in specified path')
