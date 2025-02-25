@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # sfbt.py -- savefile backup tool
 
 import time
@@ -18,7 +18,7 @@ savefile_path = {
         'skyrim': ('489830/pfx/drive_c/users/steamuser/Documents/My Games/'
                    'Skyrim Special Edition/Saves'),
         'dishonored2': ('403640/pfx/drive_c/users/steamuser/Saved Games/'
-                        'Arkane Studios/Dishonored2/base/savegame')
+                        'Arkane Studios/Dishonored2/base/savegame'),
         }
 
 steam_games = ['nier', 'kenshi', 'skyrim', 'dishonored2']
@@ -58,7 +58,7 @@ backup_regex = re.compile('%s*' % backup_filename)
 backups_dict = {}
 with os.scandir(os.getcwd()) as backups:
     for backup in backups:
-        if backup.is_file() and backup_regex.match(backup.name):
+        if backup.is_file() and backup_regex.match(backup.name) is not None:
             backup_info = os.stat(backup.name)
             backups_dict[backup_info.st_mtime] = backup.name
 
@@ -66,7 +66,7 @@ with os.scandir(os.getcwd()) as backups:
 if len(backups_dict) > 2:
     oldest_backup = min(backups_dict.keys())
     os.remove(backups_dict[oldest_backup])
-    print(f"{backups_dict[oldest_backup]} removed!")
+    print(f"{backups_dict[oldest_backup]} backup removed!")
 
 # checks if source direcotry exist and creates backup with current localtime
 if Path(source_path).exists():
