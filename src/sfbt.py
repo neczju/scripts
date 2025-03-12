@@ -19,9 +19,14 @@ savefile_path = {
                    'Skyrim Special Edition/Saves'),
         'dishonored2': ('403640/pfx/drive_c/users/steamuser/Saved Games/'
                         'Arkane Studios/Dishonored2/base/savegame'),
+        'kingdomcome': ('379430/pfx/drive_c/users/steamuser/'
+                        'Saved Games/kingdomcome/saves'),
+        'crosscode': ('.config/CrossCode/Default'),
+        'stardewvalley': '.config/StardewValley/Saves',
         }
 
-steam_games = ['nier', 'kenshi', 'skyrim', 'dishonored2']
+# it needs to be set for games that have savefile in compatdata
+steam_games = ['nier', 'kenshi', 'skyrim', 'dishonored2', 'kingdomcome']
 steam_compatdata_path = Path(
         '.steam/debian-installation/steamapps/compatdata/')
 home_path = Path.home()
