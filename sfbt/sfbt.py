@@ -28,7 +28,7 @@ savefile_path = {
 # it needs to be set for games that have savefile in compatdata
 steam_games = ['nier', 'kenshi', 'skyrim', 'dishonored2', 'kingdomcome']
 steam_compatdata_path = Path(
-        '.steam/debian-installation/steamapps/compatdata/')
+        '.local/share/Steam/steamapps/compatdata/')
 home_path = Path.home()
 target_path = 'backups'
 
