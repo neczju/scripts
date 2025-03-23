@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source_path=$HOME/
-destination_path=/run/media/neczju/716a0a85-57c0-46ee-84ba-a7ed3a810d53/backup
+destination_path=/media/usbstick/backup
 
 if [ ! -d "$destination_path" ]; then
     mkdir -p $destination_path
